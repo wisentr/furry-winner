@@ -1,0 +1,12 @@
+- [X] Start the dev task server with docker
+- [X] Folder structure for the Movies Service microservice
+- [ ] Create example requests using Postman, get the hang of all the working parts
+- [ ] Start implementing the MoviesService API
+- [ ] Choose a database (Firebase RTDB probably) and save the objects there
+- [ ] Write a dockerfile and run it in a container
+- [ ] Test it with some requests using Postman
+- [ ] Document the API in README
+- [ ] Write tests using Jest
+- [ ] Connect to Github Actions
+- [ ] Create a sample PR and make sure the Github Actions work
+- [ ] Relax and wait :) 
