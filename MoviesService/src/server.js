@@ -12,10 +12,22 @@ if (!JWT_SECRET) {
 const app = express();
 app.use(express.json());
 
+// On each request, verify the authorization header, if it fails, do not go any further
 app.all("/movies", (req, res, next) => {
-  const { token } = req.body;
-  console.log(`jwtToken -> ${token}`);
-  next();
+  const bearerHeader = req.headers["authorization"].split(" ")[1];
+  console.log(`bearerHeader->  ${bearerHeader}`);
+  jwt.verify(bearerHeader, JWT_SECRET, (error, authData) => {
+    if (error) {
+      console.error(error);
+      res.status(403).json(error);
+    } else {
+      res.json({
+        message: "Welcome!",
+        userData: authData,
+      });
+      next();
+    }
+  });
 });
 
 app.get("/movies", (req, res, next) => {
