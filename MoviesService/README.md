@@ -4,9 +4,9 @@
 - [ ] Start implementing the MoviesService API
   - [x] Get Postman API key
   - [x] Implement GET and POST for /movies endpoint without the details
-  - [ ] Make the endpoints work without the auth
-  - [ ] Validate JWT tokens before each request
-- [ ] Choose a database (Firebase RTDB probably) and save the objects there
+  - [x] Validate JWT tokens before each request
+- [ ] Choose a database and make the connection
+- [ ] Save the objects to the database
 - [ ] Write a dockerfile and run it in a container
 - [ ] Test it with some requests using Postman
 - [ ] Document the API in README

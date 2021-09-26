@@ -23,7 +23,9 @@ app.all("/movies", (req, res, next) => {
     jwt.verify(token, JWT_SECRET, (error, authData) => {
       // ! remove the ignored TokenExpiredError
       if (!error || error.name === "TokenExpiredError") {
-        next();
+        // Put the authData into the res.locals to access it later in the lifecycle of this request
+        res.locals.authData = authData;
+        return next();
       } else {
         console.error(error);
         res.status(403).json(error);
@@ -36,10 +38,16 @@ app.all("/movies", (req, res, next) => {
 app.get("/movies", (req, res, next) => {
   console.log("Reached GET /movies");
   console.log(req.query.t);
+  console.log("res.locals.authData -> ", res.locals.authData);
   const title = req.query.t;
-  if (title) {
-    axios.get(`${IMDB_URL}t=${title}`).then((data) => console.log(data));
-  }
+  let obj = {};
+  //   if (title) {
+  //     axios.get(`${IMDB_URL}t=${title}`).then(({data}) => {
+  //       const { Title, Released, Genre, Director } = data;
+  //       obj = { Title, Released, Genre, Director };
+  //       console.log(obj);
+  //     });
+  //   }
   res.sendStatus(200);
 });
 
