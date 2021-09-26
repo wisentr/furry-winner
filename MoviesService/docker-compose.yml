@@ -12,3 +12,19 @@ services:
       - .:/app/
     environment:
       JWT_SECRET: ${JWT_SECRET}
+      IMDB_API_KEY: ${IMDB_API_KEY}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data/db
+    environment:
+      # provide your credentials here
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+
+volumes:
+  data:

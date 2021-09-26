@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const axios = require("axios");
 
 const PORT = 3001;
-const { JWT_SECRET, IMDB_API_KEY } = process.env;
+const { JWT_SECRET, IMDB_API_KEY, DB_USER, DB_PASS } = process.env;
 
 if (!JWT_SECRET || !IMDB_API_KEY) {
   throw new Error(
@@ -21,8 +21,7 @@ app.all("/movies", (req, res, next) => {
   if (bearerHeader) {
     const token = bearerHeader.split(" ")[1];
     jwt.verify(token, JWT_SECRET, (error, authData) => {
-      // ! remove the ignored TokenExpiredError
-      if (!error || error.name === "TokenExpiredError") {
+      if (!error) {
         // Put the authData into the res.locals to access it later in the lifecycle of this request
         res.locals.authData = authData;
         return next();
