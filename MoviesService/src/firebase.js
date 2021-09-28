@@ -1,5 +1,5 @@
 const firebase = require("firebase/app");
-const { getDatabase, ref, set, update, push } = require("firebase/database");
+const { getDatabase, ref, update, get } = require("firebase/database");
 
 const {
   API_KEY,
@@ -24,4 +24,4 @@ const firebaseConfig = {
 if (!firebase.getApps().length) {
   firebase.initializeApp(firebaseConfig);
 }
-module.exports = { getDatabase, ref, update };
+module.exports = { getDatabase, ref, update, get };
