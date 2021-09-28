@@ -8,8 +8,10 @@
 - [x] Choose a database and make the connection(first choose mongodb, then changed my mind and implemented firebase realtime database, as it is easier to work with)
 - [x] Write a dockerfile and run it in a container
 - [x] Save the objects to the database
-- [ ] Implement the business logic for restricting the usage
-- [ ] Test it with some requests using Postman
+- [x] Implement the business logic for restricting the usage
+- [x] Implement GET/movies route
+- [x] Test it with some requests using Postman
+- [ ] Refactor firebase operations
 - [ ] Document the API in README
 - [ ] Write tests using Jest
 - [ ] Connect to Github Actions

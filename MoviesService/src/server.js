@@ -47,7 +47,15 @@ app.all("/movies", (req, res, next) => {
 
 app.get("/movies", async (req, res, next) => {
   console.log("Reached GET /movies");
-  res.sendStatus(200);
+  const userObj = res.locals.authData;
+  const snapshot = await get(ref(db, `users/${userObj.userId}/movies`));
+  let obj = {};
+  if (snapshot.exists) {
+    obj = snapshot.val();
+  } else {
+    console.log("snapshot doesn't exist!");
+  }
+  res.json(Object.values(obj));
 });
 
 app.post("/movies", async (req, res, next) => {
