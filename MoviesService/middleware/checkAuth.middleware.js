@@ -11,10 +11,11 @@ module.exports = function (req, res, next) {
         res.locals.authData = authData;
         return next();
       } else {
-        console.error(error);
-        res.status(403).json(error);
+        console.error("expired token!", error);
+        return res.status(403).json(error);
       }
     });
+  } else {
+    res.status(400).send();
   }
-  res.status(400);
 };

@@ -23,8 +23,13 @@ const getMovies = async (req, res, next) => {
   let obj = {};
   if (snapshot.exists) {
     obj = snapshot.val();
+    if (obj) {
+      res.json(Object.values(obj));
+      return;
+    }
   }
-  res.json(Object.values(obj));
+  res.json({});
+  return;
 };
 
 const postMovies = async (req, res, next) => {
@@ -46,18 +51,20 @@ const postMovies = async (req, res, next) => {
       let quotaUsedThisMonth = 0;
       if (snapshot.exists) {
         const snap = snapshot.val();
-        quotaUsedThisMonth = Object.values(snap)
-          .map((movie) => movie?.timestamp)
-          .filter((ts) =>
-            dayjs
-              .unix(ts)
-              .isBetween(
-                dayjs.unix(timestampFirstDayOfCurrentMonth),
-                dayjs.unix(timestampLastDayOfCurrentMonth),
-                null,
-                []
-              )
-          ).length;
+        if (snap) {
+          quotaUsedThisMonth = Object.values(snap)
+            .map((movie) => movie?.timestamp)
+            .filter((ts) =>
+              dayjs
+                .unix(ts)
+                .isBetween(
+                  dayjs.unix(timestampFirstDayOfCurrentMonth),
+                  dayjs.unix(timestampLastDayOfCurrentMonth),
+                  null,
+                  []
+                )
+            ).length;
+        }
       }
       if (userObj.role === "basic" && quotaUsedThisMonth >= 5) {
         throw new Error("End of quota for basic user. Try again next month!");
