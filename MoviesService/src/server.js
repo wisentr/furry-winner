@@ -1,11 +1,12 @@
 require("dotenv").config();
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const axios = require("axios");
 const { getDatabase, ref, update, get } = require("./firebase");
 const dayjs = require("dayjs");
 const isBetween = require("dayjs/plugin/isBetween");
 dayjs.extend(isBetween);
+
+const checkAuth = require("../middleware/checkAuth.middleware");
 
 const timestampFirstDayOfCurrentMonth = dayjs().startOf("month").unix();
 const timestampLastDayOfCurrentMonth = dayjs().endOf("month").unix();
@@ -26,24 +27,7 @@ app.use(express.json());
 const db = getDatabase();
 
 // On each request, verify the authorization header, if it fails, do not go any further
-app.all("/movies", (req, res, next) => {
-  const bearerHeader = req.headers["authorization"];
-
-  if (bearerHeader) {
-    const token = bearerHeader.split(" ")[1];
-    jwt.verify(token, JWT_SECRET, (error, authData) => {
-      if (!error) {
-        // Put the authData into the res.locals to access it later in the lifecycle of this request
-        res.locals.authData = authData;
-        return next();
-      } else {
-        console.error(error);
-        res.status(403).json(error);
-      }
-    });
-  }
-  res.status(400);
-});
+app.all("/movies", checkAuth);
 
 app.get("/movies", async (req, res, next) => {
   console.log("Reached GET /movies");
