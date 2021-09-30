@@ -1,0 +1,34 @@
+version: "3.2"
+services:
+  authservice:
+    build:
+      context: ./AuthService
+      dockerfile: Dockerfile
+    command: node ./AuthService/src/server.js
+    ports:
+      - published: ${APP_PORT:-3000}
+        target: 3000
+    volumes:
+      - .:/app/
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+  moviesservice:
+    command: yarn --cwd ./MoviesService/ start
+    build:
+      context: ./MoviesService
+      dockerfile: Dockerfile
+    ports:
+      - published: ${APP_PORT:-3001}
+        target: 3001
+    volumes:
+      - .:/app/
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      IMDB_API_KEY: ${IMDB_API_KEY}
+      API_KEY: ${API_KEY}
+      AUTH_DOMAIN: ${AUTH_DOMAIN}
+      DATABASE_URL: ${DATABASE_URL}
+      PROJECT_ID: ${PROJECT_ID}
+      STORAGE_BUCKET: ${STORAGE_BUCKET}
+      MESSAGING_SENDER_ID: ${MESSAGING_SENDER_ID}
+      APP_ID: ${APP_ID}
