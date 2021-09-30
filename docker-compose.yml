@@ -4,24 +4,24 @@ services:
     build:
       context: ./AuthService
       dockerfile: Dockerfile
-    command: node ./AuthService/src/server.js
+    command: node ./src/server.js
     ports:
       - published: ${APP_PORT:-3000}
         target: 3000
     volumes:
-      - .:/app/
+      - ./AuthService/:/app/
     environment:
       JWT_SECRET: ${JWT_SECRET}
   moviesservice:
-    command: yarn --cwd ./MoviesService/ start
+    command: yarn start
     build:
       context: ./MoviesService
       dockerfile: Dockerfile
     ports:
-      - published: ${APP_PORT:-3001}
+      - published: ${MOVIES_PORT:-3001}
         target: 3001
     volumes:
-      - .:/app/
+      - ./MoviesService/:/app/
     environment:
       JWT_SECRET: ${JWT_SECRET}
       IMDB_API_KEY: ${IMDB_API_KEY}
