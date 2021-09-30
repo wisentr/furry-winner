@@ -33,6 +33,11 @@ APP_ID=
 - Supertest for end to end testing
 - Docker
 
+## What I would have done differently in real world
+
+1. The authservice doesn't provide authentication, I would also implement it, and implement some logic with Firebase Functions to check users' access to the Realtime Database. At the moment, there's nothing stopping a malign user to smash my public database.
+2. I would NEVER publish my .env file here, it is here just because I wanted you to test the app easily. Firebase Realtime database will be inaccessible after Fri Oct 08 2021 21:59:59 GMT+0000
+
 ## Recruitment task description
 
 We'd like you to build a simple Movie API. It should provide two endpoints:
