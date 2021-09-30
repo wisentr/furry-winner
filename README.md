@@ -1,5 +1,40 @@
 # Node.js recruitment task
 
+## Prerequisites
+
+You need to have docker and docker-compose installed on your local computer.
+
+## Run this repo locally
+
+1. Clone this repository
+2. Create a .env file
+3. Populate with the following required keys (keys 3 to 9 are firebase project keys)
+
+```
+JWT_SECRET=
+IMDB_API_KEY=
+API_KEY=
+AUTH_DOMAIN=
+DATABASE_URL=
+PROJECT_ID=
+STORAGE_BUCKET=
+MESSAGING_SENDER_ID=
+APP_ID=
+```
+
+4. Run `docker-compose up -d` from the root directory
+5. When you want to turn it off, run `docker-compose down`
+
+## Technologies Used
+
+- Express.js
+- Firebase Client SDK
+- Jest for unit testing
+- Supertest for end to end testing
+- Docker
+
+## Recruitment task description
+
 We'd like you to build a simple Movie API. It should provide two endpoints:
 
 1. `POST /movies`
