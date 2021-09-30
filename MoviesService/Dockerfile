@@ -6,6 +6,6 @@ COPY ./package.json ./yarn.lock ./
 RUN yarn install
 
 RUN mkdir ./src
-COPY ./src ./src
+COPY . .
 
 CMD yarn start
