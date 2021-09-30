@@ -22,6 +22,7 @@ services:
         target: 3001
     volumes:
       - ./MoviesService/:/app/
+      - /app/node_modules
     environment:
       JWT_SECRET: ${JWT_SECRET}
       IMDB_API_KEY: ${IMDB_API_KEY}
