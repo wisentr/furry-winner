@@ -1,3 +1,4 @@
+require("dotenv").config({ path: __dirname + "/../../.env" });
 const express = require("express");
 const bodyParser = require("body-parser");
 const { authFactory, AuthError } = require("./auth");

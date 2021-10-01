@@ -2,10 +2,10 @@ FROM node:14.15-alpine
 
 WORKDIR /app
 
-COPY ./package.json ./package-lock.json ./
-RUN npm install
+COPY ./package.json ./yarn.lock ./
+RUN yarn install
 
 RUN mkdir ./src
-COPY ./src ./src
+COPY . .
 
-CMD ["node", "./src/server.js"]
+CMD yarn start
