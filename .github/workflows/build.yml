@@ -40,5 +40,5 @@ jobs:
       - name: Build docker and run tests
         run: |
           echo --- Building and starting up docker containers ---
-          docker-compose -f docker-compose-ci.yml up
+          docker-compose -f docker-compose-ci.yml up --abort-on-container-exit
           echo --- Containers up ---

@@ -1,6 +1,7 @@
 const request = require("supertest");
 const app = require("../src/app");
 const axios = require("axios");
+const { goOffline, getDatabase } = require("../src/firebase");
 
 const expiredJWTTokenBasicUser = {
   token:
@@ -28,25 +29,27 @@ const premiumUser = {
   password: "GBLtTyq3E_UNjFnpo9m6",
 };
 
-// const getFreshJWTToken = async (userObj) => {
-//   const config = {
-//     method: "post",
-//     url: "http://127.0.0.1:3000/auth",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     data: JSON.stringify(userObj),
-//   };
-//   const { data } = await axios(config);
-//   return data;
-// };
+const getFreshJWTToken = async (userObj) => {
+  const config = {
+    method: "post",
+    url: "http://authservice:3000/auth",
+    // url: "http://127.0.0.1:3000/auth",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify(userObj),
+  };
+  const { data } = await axios(config);
+  return data;
+};
 
-// beforeAll(async () => {
-//   [freshJWTTokenBasicUser, freshJWTTokenPremiumUser] = await Promise.all([
-//     getFreshJWTToken(basicUser),
-//     getFreshJWTToken(premiumUser),
-//   ]);
-// });
+beforeAll(async () => {
+  [freshJWTTokenBasicUser, freshJWTTokenPremiumUser] = await Promise.all([
+    getFreshJWTToken(basicUser),
+    getFreshJWTToken(premiumUser),
+  ]);
+});
+afterAll(() => goOffline(getDatabase()));
 
 it("Testing to see if jest works", () => {
   expect(1).toBe(1);
@@ -100,45 +103,45 @@ describe("Given an expired JWT token", () => {
   });
 });
 
-// describe("Given a valid JWT token", () => {
-//   describe("for a basic user", () => {
-//     test("GET /movies should return json", async () => {
-//       const response = await request(app)
-//         .get("/movies")
-//         .set("Authorization", "bearer " + freshJWTTokenBasicUser.token)
-//         .send();
-//       expect(response.headers["content-type"]).toEqual(
-//         expect.stringContaining("json")
-//       );
-//     });
+describe("Given a valid JWT token", () => {
+  describe("for a basic user", () => {
+    test("GET /movies should return json", async () => {
+      const response = await request(app)
+        .get("/movies")
+        .set("Authorization", "bearer " + freshJWTTokenBasicUser.token)
+        .send();
+      expect(response.headers["content-type"]).toEqual(
+        expect.stringContaining("json")
+      );
+    });
 
-//     test("POST /movies with a query param should return a body with defined title", async () => {
-//       const response = await request(app)
-//         .post("/movies")
-//         .set("Authorization", "bearer " + freshJWTTokenBasicUser.token)
-//         .query({ t: "Harry" })
-//         .send();
-//       expect(response.body.title).toBeDefined();
-//     });
-//   });
-//   describe("for a premium user", () => {
-//     test("GET /movies should return json", async () => {
-//       const response = await request(app)
-//         .get("/movies")
-//         .set("Authorization", "bearer " + freshJWTTokenPremiumUser.token)
-//         .send();
-//       expect(response.headers["content-type"]).toEqual(
-//         expect.stringContaining("json")
-//       );
-//     });
+    test("POST /movies with a query param should return a body with defined title", async () => {
+      const response = await request(app)
+        .post("/movies")
+        .set("Authorization", "bearer " + freshJWTTokenBasicUser.token)
+        .query({ t: "Harry" })
+        .send();
+      expect(response.body.title).toBeDefined();
+    });
+  });
+  describe("for a premium user", () => {
+    test("GET /movies should return json", async () => {
+      const response = await request(app)
+        .get("/movies")
+        .set("Authorization", "bearer " + freshJWTTokenPremiumUser.token)
+        .send();
+      expect(response.headers["content-type"]).toEqual(
+        expect.stringContaining("json")
+      );
+    });
 
-//     test("POST /movies with a query param should return a body with defined title", async () => {
-//       const response = await request(app)
-//         .post("/movies")
-//         .set("Authorization", "bearer " + freshJWTTokenPremiumUser.token)
-//         .query({ t: "Harry" })
-//         .send();
-//       expect(response.body.title).toBeDefined();
-//     });
-//   });
-// });
+    test("POST /movies with a query param should return a body with defined title", async () => {
+      const response = await request(app)
+        .post("/movies")
+        .set("Authorization", "bearer " + freshJWTTokenPremiumUser.token)
+        .query({ t: "Harry" })
+        .send();
+      expect(response.body.title).toBeDefined();
+    });
+  });
+});

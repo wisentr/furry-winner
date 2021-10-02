@@ -10,6 +10,7 @@ services:
         target: 3000
     volumes:
       - ./AuthService/:/app/
+      - /app/node_modules
     environment:
       JWT_SECRET: ${JWT_SECRET}
   moviesservice:
