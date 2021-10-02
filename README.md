@@ -25,6 +25,47 @@ APP_ID=
 4. Run `docker-compose up -d` from the root directory
 5. When you want to turn it off, run `docker-compose down`
 
+## Test this repo locally
+
+1. Do the steps on the previous section up until running it
+2. Run `docker-compose -f docker-compose-ci.yml up --abort-on-container-exit`
+
+## Example request to the MoviesService
+
+API uses the query params, like IMDB API. The parameter 't' is kept the same as the OMDB API.
+
+### /GET movies request
+
+```
+curl --location --request GET '127.0.0.1:3001/movies' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywibmFtZSI6IkJhc2ljIFRob21hcyIsInJvbGUiOiJiYXNpYyIsImlhdCI6MTYzMjk1NDYxNywiZXhwIjoxNjUwOTU0NjE3LCJpc3MiOiJodHRwczovL3d3dy5uZXRndXJ1LmNvbS8iLCJzdWIiOiIxMjMifQ.1gAKj4mN2x8A1Ic0e3yxKII5_Fi885oamewuviIe5jA'
+```
+
+### /GET movies response
+
+```
+[{"director":"David Yates","genre":"Adventure, Drama, Fantasy","released":"15 Jul 2011","timestamp":1633164541,"title":"Harry Potter and the Deathly Hallows: Part 2"},{"director":"Joe Pytka","genre":"Animation, Adventure, Comedy","released":"15 Nov 1996","timestamp":1632865274,"title":"Space Jam"}]
+```
+
+### /POST movies request
+
+```
+curl --location --request POST '127.0.0.1:3001/movies?t=Harry' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywibmFtZSI6IkJhc2ljIFRob21hcyIsInJvbGUiOiJiYXNpYyIsImlhdCI6MTYzMjg2Nzg4OSwiZXhwIjoxNjMzMDQ3ODg5LCJpc3MiOiJodHRwczovL3d3dy5uZXRndXJ1LmNvbS8iLCJzdWIiOiIxMjMifQ.VcsBALHuiFhPlYIv0MdTQzmUvQYizmmXC8yyU3SRbjc'
+```
+
+### /POST movies response
+
+```
+{
+    "title": "Harry Potter and the Deathly Hallows: Part 2",
+    "released": "15 Jul 2011",
+    "genre": "Adventure, Drama, Fantasy",
+    "director": "David Yates",
+    "timestamp": 1633167734
+}
+```
+
 ## Technologies Used
 
 - Express.js

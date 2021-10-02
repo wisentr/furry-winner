@@ -33,7 +33,6 @@ const getFreshJWTToken = async (userObj) => {
   const config = {
     method: "post",
     url: "http://authservice:3000/auth",
-    // url: "http://127.0.0.1:3000/auth",
     headers: {
       "Content-Type": "application/json",
     },
